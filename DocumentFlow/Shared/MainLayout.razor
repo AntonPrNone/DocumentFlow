@@ -1,0 +1,24 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>DocumentFlow</PageTitle>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <nav class="navbar navbar-dark" style="background-color: #3d008f;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    Гость
+                    <img src="img/User.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                 </a>
+            </div>
+        </nav>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>

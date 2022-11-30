@@ -1,0 +1,67 @@
+﻿<div class="table-responsive">
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>Login</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Release Date</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @if (Person == null)
+            {
+                <tr>Loading data...</tr>
+            }
+            else if (Person.Count == 0)
+            {
+                <tr>Нет ничего</tr>
+            }
+            else
+            {
+                @foreach (var item in Person)
+                {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Login</td>
+                                <td>@item.Password</td>
+                            </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@code {
+    private List<Customer> Person { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        Person = new List<Customer>()
+        {
+            new Customer()
+            {
+                Name = "Chel",
+                Login = "Chel2000",
+                Password = "Nagibatel3000"
+            },
+
+            new Customer()
+            {
+                Name = "Anton",
+                Login = "AntonPr",
+                Password = "NeScagu"
+            },
+
+            new Customer()
+            {
+                Name = "Durak",
+                Login = "Eblan",
+                Password = "password123"
+            },
+        };
+    }
+}
