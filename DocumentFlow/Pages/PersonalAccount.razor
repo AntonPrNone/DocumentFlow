@@ -1,0 +1,236 @@
+﻿@page "/account"
+@inject SingletonServices singleton
+@inject NavigationManager NavigationManager
+
+<PageTitle>Home</PageTitle>
+<h1 class="text-center">Personal Cabinet</h1>
+<form class="row g-3 my-3 justify-content-center">
+    <div class="col-md-4 w-25">
+        <label for="inputAddress" class="form-label">Name / Organization</label>
+        <div class="input-group">
+            <div class="input-group-text">A. A. A</div>
+            <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Ivan Ivanovich Ivanov" @bind="@Name">
+        </div>
+    </div>
+    <div class="col-md-4 w-25">
+        <label for="inputAddress" class="form-label">Email</label>
+        <div class="input-group">
+            <div class="input-group-text">@@</div>
+            <input type="email" class="form-control" id="autoSizingInputGroup" placeholder="name@xx.xx" @bind="@Email">
+        </div>
+    </div>
+    <div class="col-md-4 w-25">
+        <label for="inputAddress" class="form-label">Phone number</label>
+        <div class="input-group">
+            <div class="input-group-text">📞</div>
+            <input type="tel" class="form-control" id="autoSizingInputGroup" placeholder="(+x) xxxxxxxxxx" @bind="@PhoneNumber">
+        </div>
+    </div>
+
+    <div class="col-6">
+        <label for="inputAddress" class="form-label">Login</label>
+        <input type="text" class="form-control" id="inputAddress" placeholder="Name123" @bind="@Login">
+    </div>
+    <div class="col-md-6 w-25">
+        <label for="inputAddress2" class="form-label">Password</label>
+        <input type="password" class="form-control" id="inputAddress2" placeholder="Qwerty" @bind="@Password">
+    </div>
+    <div class="col-md-6 w-25">
+        <label for="inputCity" class="form-label">Repeat the password</label>
+        <input type="password" class="form-control" id="inputCity" placeholder="Qwerty" @bind="@LastPassword">
+    </div>
+    <div class="col-md-4">
+        <label for="inputAddress" class="form-label">Role</label>
+        <label class="visually-hidden" for="autoSizingSelect">Role</label>
+        <select class="form-select" id="autoSizingSelect" @bind="@Role">
+            <option value="Customer">Customer</option>
+            <option value="Developer">Developer</option>
+            <option value="Designer">Designer</option>
+        </select>
+    </div>
+
+    @if (Role != "Customer")
+    {
+        <div class="col-md-4 w-50">
+            <label for="inputAddress" class="form-label">OGRN</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="0123456789" @bind="@OGRN">
+            </div>
+        </div>
+        <div class="col-md-4 w-25">
+            <label for="inputAddress" class="form-label">INN</label>
+            <div class="input-group">
+                <input type="email" class="form-control" id="autoSizingInputGroup" placeholder="0123456789" @bind="@INN">
+            </div>
+        </div>
+        <div class="col-md-4 w-25">
+            <label for="inputAddress" class="form-label">KPP</label>
+            <div class="input-group">
+                <input type="tel" class="form-control" id="autoSizingInputGroup" placeholder="0123456789" @bind="@KPP">
+            </div>
+        </div>
+        <div class="col-md-4 w-25">
+            <label for="inputAddress" class="form-label">Addres</label>
+            <div class="input-group">
+                <div class="input-group-text">🏢</div>
+                <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Moscow city, Manezhnaya Str., house 2-10" @bind="@Addres">
+            </div>
+        </div>
+        <div class="col-md-4 w-25">
+            <label for="inputAddress" class="form-label">Head of the Executive Committee / Director</label>
+            <div class="input-group">
+                <div class="input-group-text">A. A. A</div>
+                <input type="email" class="form-control" id="autoSizingInputGroup" placeholder="Ivan Ivanovich Ivanov" @bind="@Director">
+            </div>
+        </div>
+        @if (Role == "Designer")
+        {
+            <div class="col-md-4 w-25">
+                <label for="inputAddress" class="form-label">Chief Project Engineer</label>
+                <div class="input-group">
+                    <div class="input-group-text">A. A. A</div>
+                    <input type="email" class="form-control" id="autoSizingInputGroup" placeholder="Ivan Ivanovich Ivanov" @bind="@GIP">
+                </div>
+            </div>
+        }
+    }
+
+    <button type="button" class="btn btn-outline-primary w-75" @onclick="RegUser">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
+            <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+        </svg>
+        Submit
+    </button>
+    @if (error)
+    {
+        <h6 class="btn-danger text-center">Error</h6>
+    }
+</form>
+
+@code
+{
+    protected async override Task OnInitializedAsync()
+    {
+        Name = singleton.user.Name;
+        Login = singleton.user.Login;
+        Email = singleton.user.Email;
+        Password = singleton.user.Password;
+        LastPassword = singleton.user.Password;
+        LastPassword = "";
+        PhoneNumber = singleton.user.PhoneNumber;
+        Role = singleton.user.Role;
+
+        error = false;
+
+        OGRN = singleton.user.OGRN;
+        INN = singleton.user.INN;
+        KPP = singleton.user.KPP;
+        Addres = singleton.user.Address;
+        Director = singleton.user.Director;
+        GIP = singleton.user.GIP;
+    }
+
+    string? Name;
+    string? Login;
+    string? Email;
+    string? Password;
+    string? LastPassword;
+    string? PhoneNumber;
+    string? Role = "Customer";
+
+    bool error = false;
+
+    string? OGRN;
+    string? INN;
+    string? KPP;
+    string? Addres;
+    string? Director;
+    string? GIP;
+
+    private void RegUser()
+    {
+        var tempLog = MongoExamples.Find(Login);
+        if (Role == "Customer")
+        {
+            if (Name != "" && Login != "" && Email != "" && Password != "" && LastPassword != "" && PhoneNumber != "" && Role != ""
+            && Password == LastPassword && tempLog == null)
+            {
+                User temp = new User() { Name = Name, Login = Login, Email = Email, Password = Password, PhoneNumber = PhoneNumber, Role = Role };
+                MongoExamples.ReplaceByName(singleton.user.Login, temp);
+                singleton.user = temp;
+                NavigationManager.NavigateTo("/");
+            }
+
+            else
+            {
+                error = true;
+            }
+        }
+
+        else if (Role == "Developer")
+        {
+            if (Name != "" && Login != "" && Email != "" && Password != "" && LastPassword != "" && PhoneNumber != "" && Role != "" &&
+                OGRN != "" && INN != "" && KPP != "" && Addres != "" && Director != ""
+                && Password == LastPassword && (tempLog == null || tempLog.Login == Login))
+            {
+                User temp = new User()
+                    {
+                        Name = Name,
+                        Login = Login,
+                        Email = Email,
+                        Password = Password,
+                        PhoneNumber = PhoneNumber,
+                        Role = Role,
+                        OGRN = OGRN,
+                        INN = INN,
+                        KPP = KPP,
+                        Address = Addres,
+                        Director = Director
+                    };
+
+                MongoExamples.ReplaceByName(singleton.user.Login, temp);
+                singleton.user = temp;
+                NavigationManager.NavigateTo("/");
+            }
+
+            else
+            {
+                error = true;
+            }
+        }
+
+        else if (Role == "Designer")
+        {
+            if (Name != "" && Login != "" && Email != "" && Password != "" && LastPassword != "" && PhoneNumber != "" && Role != "" &&
+                OGRN != "" && INN != "" && KPP != "" && Addres != "" && Director != "" && GIP != ""
+                && Password == LastPassword && tempLog == null)
+            {
+                User temp = new User()
+                    {
+                        Name = Name,
+                        Login = Login,
+                        Email = Email,
+                        Password = Password,
+                        PhoneNumber = PhoneNumber,
+                        Role = Role,
+                        OGRN = OGRN,
+                        INN = INN,
+                        KPP = KPP,
+                        Address = Addres,
+                        Director = Director,
+                        GIP = GIP
+                    };
+
+                MongoExamples.ReplaceByName(singleton.user.Login, temp);
+                singleton.user = temp;
+                NavigationManager.NavigateTo("/");
+            }
+
+            else
+            {
+                error = true;
+            }
+        }
+    }
+}

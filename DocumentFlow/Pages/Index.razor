@@ -1,5 +1,32 @@
 ﻿@page "/"
+@inject SingletonServices singleton
 
-<PageTitle>Index</PageTitle>
-<h1 class="text-center">Челы</h1>
-<CustomerTable/>
+<PageTitle>Home</PageTitle>
+@if (!singleton.LogIn)
+{
+    <h1 class="text-center">
+        @Greeting() Log in
+    </h1>
+    <Log/>
+}
+
+else
+{
+     <h1 class="text-center">
+         @Greeting()<span>, @singleton.user.Name</span>
+     </h1>
+}
+
+
+@code
+{
+    public static string Greeting()
+    {
+        int hourNow = Convert.ToInt32(DateTime.Now.ToString("HH"));
+        if (hourNow >= 0 && hourNow < 6) return "Good night!🌙✨";
+        else if (hourNow >= 6 && hourNow < 12) return "Good morning!🌅";
+        else if (hourNow >= 12 && hourNow < 18) return "Good afternoon!☀️";
+        else if (hourNow >= 18 && hourNow <= 23) return "Good evening!🌆";
+        else return "Здравствуйте!";
+    }
+}

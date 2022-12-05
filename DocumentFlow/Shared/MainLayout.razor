@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject SingletonServices singleton
+@inject NavigationManager NavigationManager
 
 <PageTitle>DocumentFlow</PageTitle>
 
@@ -9,11 +11,23 @@
 
     <main>
         <nav class="navbar navbar-dark" style="background-color: #3d008f;">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    Гость
+            <div class="container-fluid d-flex justify-content-end">
+                <a class="navbar-brand" @onclick="@NavAccountOrLogon" style="cursor: pointer">
+                    @if (@singleton.user != null)
+                    {
+                        @singleton.user.Name
+                    }
+
+                    else
+                    {
+                        <span>Guest </span>
+                    }
                     <img src="img/User.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
                  </a>
+                 @if (@singleton.user != null)
+                 {
+                    <img src="img/Exit.png" alt="" width="30" height="24" class="d-inline-block align-text-top" @onclick="Exit" style="cursor: pointer">
+                 }
             </div>
         </nav>
 
@@ -22,3 +36,19 @@
         </article>
     </main>
 </div>
+
+@code
+{
+    void Exit()
+    {
+        singleton.user = null;
+        singleton.LogIn = false;
+        NavigationManager.NavigateTo("/", true);
+    }
+
+    void NavAccountOrLogon()
+    {
+        if (singleton.LogIn) NavigationManager.NavigateTo("/account");
+        else NavigationManager.NavigateTo("/");
+    }
+}
